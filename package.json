@@ -1,23 +1,8 @@
-{
-  "name": "pokemon-store",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "14.2.3",
-    "react": "^18",
-    "react-dom": "^18",
-    "@supabase/supabase-js": "^2.43.1",
-    "lucide-react": "^0.383.0"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.0.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+export default function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  const { password } = req.body
+  if (password === process.env.ADMIN_PASSWORD) {
+    return res.status(200).json({ token: process.env.ADMIN_PASSWORD })
   }
+  return res.status(401).json({ error: 'Invalid password' })
 }
